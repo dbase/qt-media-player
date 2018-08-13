@@ -10,6 +10,14 @@
 #include <QTime>
 
 #include <player.h>
+#include <polygondrawer.h>
+
+#include <opencv2/core/core.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/highgui/highgui.hpp>
+
+using namespace cv;
+using namespace std;
 
 namespace Ui {
 class MainWindow;
@@ -23,16 +31,26 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-//    bool eventF ilter(QObject *obj, QEvent *event);
+protected:
+    virtual void keyPressEvent(QKeyEvent* event);
 
 private slots:
-    void btnCameraOpenClicked();
+    void openMedia();
+    void openMedia2Mask();
 
     void btnPlayPauseClicked();
     void btnPlayPause_set_Play();
     void btnPlayPause_set_Pause();
 
+    void btnNewPolygon();
+
     void updatePlayerUI(QImage img);
+    void updateMaskUI(QImage img);
+    void maskSavePolygon();
+
+    void btnLoadPolygonPolygonClicked();
+    void btnLoadMaskControlClicked();
+    vector<Point> loadPolygon();
 
     QString getFormattedTime(int timeInSeconds);
 
@@ -43,11 +61,14 @@ private slots:
     void mouseDoubleClick(QMouseEvent *event);
     void mousePressed(QMouseEvent *event);
     void mouseMoved(QMouseEvent *event);
+
+    void warningMessage(const QString &caption, const QString &message);
 private:
     Ui::MainWindow *ui;
     void resizeEvent(QResizeEvent *event);
 
-    Player* myPlayer;
+    Player *myPlayer;
+    PolygonDrawer *polygonDrawer;
     QString lastDir;
 };
 

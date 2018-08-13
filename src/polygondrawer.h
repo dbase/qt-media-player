@@ -1,5 +1,5 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef POLYGONDRAWER_H
+#define POLYGONDRAWER_H
 
 #include <QMutex>
 #include <QThread>
@@ -12,7 +12,7 @@
 using namespace cv;
 using namespace std;
 
-class Player : public QThread
+class PolygonDrawer : public QThread
 {
     Q_OBJECT
 
@@ -28,18 +28,22 @@ private:
     int frameWidth;
     int frameHeight;
 
+    QPoint mousePosition;
     vector<Point> polygonPoints;
 
 signals:
     void processedImage(const QImage &image);
+
+public slots:
+    void setMousePosition(QPoint pos);
 
 protected:
     void run();
     void msleep(int ms);
 
 public:
-    Player(QObject *parent = nullptr);
-    ~Player();
+    PolygonDrawer(QObject *parent = nullptr);
+    ~PolygonDrawer();
 
     bool loadVideo(QString filename);
     bool isOpened();
@@ -58,9 +62,13 @@ public:
     void Stop();
     bool isStopped();
 
+    void addPointToPolygon(QPoint pt);
+    void removePointFromPolygon();
+    void finishPolygonEditing();
     void setPolygonPoints(vector<Point> pt);
+    vector<Point> getPolygonPoints();
 
     QStringList mimeTypeFilters;
 };
 
-#endif // PLAYER_H
+#endif // POLYGONDRAWER_H

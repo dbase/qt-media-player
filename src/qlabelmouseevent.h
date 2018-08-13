@@ -1,16 +1,16 @@
-#ifndef VIDEOCANVAS_H
-#define VIDEOCANVAS_H
+#ifndef QLABELMOUSEEVENT_H
+#define QLABELMOUSEEVENT_H
 
 #include <QLabel>
 #include <QWidget>
 #include <QEvent>
 #include <QMouseEvent>
 
-class VideoCanvas : public QLabel
+class QLabelMouseEvent : public QLabel
 {
     Q_OBJECT
 public:
-    explicit VideoCanvas(QWidget *parent=nullptr);
+    explicit QLabelMouseEvent(QWidget *parent=nullptr);
 
     void mouseDoubleClickEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
@@ -20,9 +20,8 @@ signals:
     void mouseDoubleClick(QMouseEvent *event);
     void mousePressed(QMouseEvent *event);
     void mouseMoved(QMouseEvent *event);
-
 public slots:
 
 };
 
-#endif // VIDEOCANVAS_H
+#endif // QLABELMOUSEEVENT_H

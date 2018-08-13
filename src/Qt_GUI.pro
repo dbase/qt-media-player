@@ -26,12 +26,14 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     player.cpp \
-    videocanvas.cpp
+    qlabelmouseevent.cpp \
+    polygondrawer.cpp
 
 HEADERS += \
         mainwindow.h \
     player.h \
-    videocanvas.h
+    qlabelmouseevent.h \
+    polygondrawer.h
 
 FORMS += \
         mainwindow.ui

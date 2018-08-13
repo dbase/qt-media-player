@@ -45,6 +45,30 @@ bool Player::isOpened()
 QImage Player::getFrame()
 {
     if (capture->read(frame)) {
+        Mat overlay;
+        frame.copyTo(overlay);
+
+        // Fill polygon
+        if (polygonPoints.size() > 0) {
+            // Draw all line segments
+            const Point *pts = (const cv::Point *) Mat(polygonPoints).data;
+            const int npts = Mat(polygonPoints).rows;
+
+            cv::fillPoly(overlay,
+                         &pts,
+                         &npts,
+                         1,
+                         Scalar(0, 0, 128));
+
+            cv::addWeighted(overlay,
+                            0.4,
+                            frame,
+                            1 - 0.4,
+                            0,
+                            frame);
+        }
+
+        // Convert frame to QImage
         if (frame.channels() == 3) {
             cv::cvtColor(frame, RGBframe, CV_BGR2RGB);
 
@@ -137,4 +161,12 @@ void Player::msleep(int ms)
 bool Player::isStopped()
 {
     return this->stop;
+}
+
+void Player::setPolygonPoints(vector<Point> pt)
+{
+    this->Stop();
+    while(this->isRunning());
+
+    polygonPoints = pt;
 }
